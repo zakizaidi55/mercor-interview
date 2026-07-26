@@ -19,7 +19,7 @@ export function Interview() {
     const [isEnding, setIsEnding] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const navigate = useNavigate();
-    const deepgramApiKey = process.env.DEEPGRAM_API_KEY;
+    const deepgramApiKey = process.env.BUN_PUBLIC_DEEPGRAM_API_KEY;
 
     const toggleMute = () => {
         if (mediaStreamRef.current) {
@@ -124,7 +124,7 @@ export function Interview() {
             updateUserVolume();
             
             if (!deepgramApiKey) {
-                console.error('Missing DEEPGRAM_API_KEY in frontend environment.');
+                console.error('Missing BUN_PUBLIC_DEEPGRAM_API_KEY in frontend environment.');
                 return;
             }
 
