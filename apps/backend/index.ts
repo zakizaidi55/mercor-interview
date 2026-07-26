@@ -14,6 +14,10 @@ app.use(express.json());
 app.use(cors())
 app.use(express.text({type:["application.sdp", "text/plain"]}));
 
+app.get("/health", (_req, res) => {
+    res.status(200).json({ ok: true });
+});
+
 
 
 app.post("/api/v1/pre-interview", async (req, res) => {
