@@ -19,6 +19,7 @@ export function Interview() {
     const [isEnding, setIsEnding] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const navigate = useNavigate();
+    const deepgramApiKey = process.env.DEEPGRAM_API_KEY;
 
     const toggleMute = () => {
         if (mediaStreamRef.current) {
@@ -122,9 +123,14 @@ export function Interview() {
             };
             updateUserVolume();
             
+            if (!deepgramApiKey) {
+                console.error('Missing DEEPGRAM_API_KEY in frontend environment.');
+                return;
+            }
+
             const socket = new WebSocket('wss://api.deepgram.com/v1/listen', [
-                'token', 
-                '1921ef83a0176ec29b05b95f2cbbfa5952f36a06'
+                'token',
+                deepgramApiKey
             ]);
             websocketRef.current = socket;
             
@@ -186,7 +192,7 @@ export function Interview() {
                 audioContextRef.current.close().catch(e => console.error('Error closing audio context:', e));
             }
         };
-    }, [interviewId])
+    }, [deepgramApiKey, interviewId])
 
     const getVolumeDots = (volume: number) => {
         const normalizedVolume = Math.min(volume / 50, 1);
